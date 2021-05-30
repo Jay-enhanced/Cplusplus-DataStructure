@@ -46,9 +46,7 @@
 
 使用模板实现存储任意类型数据，参考文件MyStack.h。因为使用了模板，所以实现也放在头文件中，如果实现放在`.cpp`文件中，会报链接错误。
 
-原因参考
-
-[C++模板的定义是否只能放在头文件中？]: https://blog.csdn.net/imred/article/details/80261632
+原因参考[C++模板的定义是否只能放在头文件中？](https://blog.csdn.net/imred/article/details/80261632)
 
 
 
