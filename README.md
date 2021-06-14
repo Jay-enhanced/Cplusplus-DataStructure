@@ -25,7 +25,7 @@
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
-## 栈
+## 一 栈
 
 栈是一种线性数据结构，有以下两种特点：
 
@@ -66,7 +66,7 @@
 
 
 
-## 双向循环链表
+## 二 双向循环链表
 
 双向循环链表，顾名思义，每个节点都有两个指针，一个指向前驱节点，一个指向后继节点。头节点的前驱节点是尾节点，尾节点的后继节点是头节点。双向循环链表相较于单链表更具灵活性。
 
@@ -94,4 +94,6 @@
 
 使用模板实现存储任意类型数据，参考文件MyDoubleLink.h。
 
-## 队列
+## 三 队列
+
+### 
