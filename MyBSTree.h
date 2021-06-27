@@ -1,5 +1,6 @@
 #pragma once
 #include "MyException.h"
+#include "MyStack.h"
 #include <iostream>
 
 using namespace std;
@@ -36,11 +37,14 @@ public:
 	// 2.删除键值为key的节点
 	void remove(_Ty key);
 	// 3.先根遍历
-	void preorder();
+	void preorder();			// 递归版本
+	void preorder_iterative();	// 迭代版本
 	// 4.中根遍历
-	void inorder();
+	void inorder();				// 递归版本
+	void inorder_iterative();	// 迭代版本
 	// 5.后根遍历
-	void postorder();
+	void postorder();			// 递归版本
+	void postorder_iterative();	// 迭代版本
 	// 6.返回二叉树中的最小值
 	_Ty min() const;
 	// 7.返回二叉树中的最大值
@@ -51,10 +55,13 @@ public:
 	bool create(_Ty root_key, _Ty keys[], unsigned int size);
 	// 10.销毁二叉树
 	void destroy();
+	// 11.返回树的大小
+	int size();
 
 private:
 	// 私有成员和方法，类内部使用
 	MyBSTreeNode<_Ty>* root;
+	int m_size;
 	// 1.查找键值为key的节点
 	MyBSTreeNode<_Ty>* search(_Ty key) const;
 	// 2.先根遍历
@@ -71,6 +78,7 @@ private:
 template <class _Ty>
 MyBSTree<_Ty>::MyBSTree()
 {
+	m_size = 0;
 	root = nullptr;
 }
 
@@ -127,13 +135,13 @@ void MyBSTree<_Ty>::insert(_Ty key)
 	{
 		_tmp->rchild = _new;
 	}
+	m_size++;
 }
 
 // 2.删除键值为key的节点
 template<class _Ty>
 void MyBSTree<_Ty>::remove(_Ty key)
 {
-	MyBSTreeNode<_Ty>* _promotion_node = nullptr;
 	MyBSTreeNode<_Ty>* _node = search(key);
 	if (_node == nullptr)
 	{
@@ -143,6 +151,14 @@ void MyBSTree<_Ty>::remove(_Ty key)
 	// 被删除的节点是叶子节点，直接删除
 	if (_node->lchild == nullptr && _node->rchild == nullptr)
 	{
+		if (_node == root)
+		{
+			delete root;
+			root = nullptr;
+			m_size = 0;
+			return;
+		}
+
 		if (_node->parent->lchild == _node)
 		{
 			_node->parent->lchild = nullptr;
@@ -151,12 +167,15 @@ void MyBSTree<_Ty>::remove(_Ty key)
 		{
 			_node->parent->rchild = nullptr;
 		}
+
 		delete _node;
 		_node = nullptr;
+		m_size--;
 		return;
 	}
 
 	// 被删除的节点是非叶子节点，需要从左右子树中找到键值仅次于key的节点作为晋升（喜当爹）节点
+	MyBSTreeNode<_Ty>* _promotion_node = nullptr;
 	if (_node->rchild != nullptr)
 	{
 		// 右子树非空，从右子树找的左半边（包括子树的根）找晋升（喜当爹）节点
@@ -219,6 +238,7 @@ void MyBSTree<_Ty>::remove(_Ty key)
 	_node->key = _promotion_node->key;
 	delete _promotion_node;
 	_promotion_node = nullptr;
+	m_size--;
 }
 
 template<class _Ty>
@@ -228,15 +248,89 @@ void MyBSTree<_Ty>::preorder()
 }
 
 template<class _Ty>
+void MyBSTree<_Ty>::preorder_iterative()
+{
+	MyBSTreeNode<_Ty>* tmp = root;
+	MyStack<MyBSTreeNode<_Ty>*> stack(m_size);
+	while (tmp || !stack.isEmpty())
+	{
+		while (tmp)
+		{
+			cout << tmp->key << " ";
+			stack.push(tmp);
+			tmp = tmp->lchild;
+		}
+
+		if (!stack.isEmpty())
+		{
+			tmp = stack.pop();
+			tmp = tmp->rchild;
+		}
+	}
+}
+
+template<class _Ty>
 void MyBSTree<_Ty>::inorder()
 {
 	inorder(root);
 }
 
 template<class _Ty>
+void MyBSTree<_Ty>::inorder_iterative()
+{
+	MyBSTreeNode<_Ty>* tmp = root;
+	MyStack<MyBSTreeNode<_Ty>*> stack(m_size);
+	while (tmp || !stack.isEmpty())
+	{
+		while (tmp)
+		{
+			stack.push(tmp);
+			tmp = tmp->lchild;
+		}
+		
+		if (!stack.isEmpty())
+		{
+			tmp = stack.pop();
+			cout << tmp->key << " ";
+			tmp = tmp->rchild;
+		}
+	}
+}
+
+template<class _Ty>
 void MyBSTree<_Ty>::postorder()
 {
 	postorder(root);
+}
+
+template<class _Ty>
+void MyBSTree<_Ty>::postorder_iterative()
+{
+	MyBSTreeNode<_Ty>* tmp = root;
+	MyStack<MyBSTreeNode<_Ty>*> stack(2 * m_size);
+	while (tmp || !stack.isEmpty())
+	{
+		while (tmp)
+		{
+			stack.push(tmp);
+			stack.push(NULL);
+			tmp = tmp->lchild;
+		}
+		if (!stack.isEmpty())
+		{
+			tmp = stack.pop();
+			if (!tmp)
+			{
+				tmp = stack.top();
+				tmp = tmp->rchild;
+			}
+			else
+			{
+				cout << tmp->key << " ";
+				tmp = NULL;
+			}
+		}
+	}
 }
 
 template<class _Ty>
@@ -305,6 +399,13 @@ template<class _Ty>
 void MyBSTree<_Ty>::destroy()
 {
 	destroy(root);
+	m_size = 0;
+}
+
+template<class _Ty>
+inline int MyBSTree<_Ty>::size()
+{
+	return m_size;
 }
 
 template<class _Ty>
@@ -335,10 +436,11 @@ void MyBSTree<_Ty>::destroy(MyBSTreeNode<_Ty>* node)
 	root = nullptr;
 }
 
+// 递归版本
 template<class _Ty>
 void MyBSTree<_Ty>::preorder(MyBSTreeNode<_Ty>* node)
 {
-	if (node)
+	if (node != nullptr)
 	{
 		cout << node->key << " ";
 		preorder(node->lchild);
