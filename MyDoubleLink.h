@@ -134,17 +134,13 @@ MyDoubleLink<_Ty>::MyDoubleLink():count(0)
 template<class _Ty>
 MyDoubleLink<_Ty>::~MyDoubleLink()
 {
-	pNode ptmp;
-	pNode pnode = phead->next;
-
-	while (pnode != phead)
+	phead->prev->next = nullptr;
+	while (phead)
 	{
-		ptmp = pnode;
-		pnode = pnode->next;
-		delete ptmp;
+		pNode tmp = phead;
+		phead = phead->next;
+		delete tmp;
 	}
-
-	delete phead;
 	phead = nullptr;
 }
 
@@ -172,7 +168,7 @@ void MyDoubleLink<_Ty>::insert_front(_Ty value)
 template<class _Ty>
 void MyDoubleLink<_Ty>::insert_tail(_Ty value)
 {
-	pNode pnode = new Node(value, phead->prev, phead);
+ 	pNode pnode = new Node(value, phead->prev, phead);
 	phead->prev->next = pnode;
 	phead->prev = pnode;
 	count++;
