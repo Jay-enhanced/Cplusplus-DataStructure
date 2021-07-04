@@ -31,70 +31,70 @@ public:
 	MyDoubleLink();
 	~MyDoubleLink();
 
-	// 1.·µ»ØÁ´±íµÄ´óĞ¡
+	// 1.è¿”å›é“¾è¡¨çš„å¤§å°
 	unsigned int size() const;
-	// 2.·µ»ØÁ´±íÊÇ·ñÎª¿Õ
+	// 2.è¿”å›é“¾è¡¨æ˜¯å¦ä¸ºç©º
 	bool isEmpty() const;
-	// 3.Í·²å
+	// 3.å¤´æ’
 	void insert_front(_Ty value);
-	// 4.Î²²å
+	// 4.å°¾æ’
 	void insert_tail(_Ty value);
-	// 5.ÔÚindexÇ°Ôö¼Ó½Úµã
+	// 5.åœ¨indexå‰å¢åŠ èŠ‚ç‚¹
 	void insert_at(const unsigned int& index, _Ty value);
-	// 6.É¾³ıµÚÒ»¸öÖµÎªvalueµÄ½Úµã
+	// 6.åˆ é™¤ç¬¬ä¸€ä¸ªå€¼ä¸ºvalueçš„èŠ‚ç‚¹
 	void delete_node(_Ty value);
-	// 7.¸üĞÂ½Úµã
+	// 7.æ›´æ–°èŠ‚ç‚¹
 	void update_node(_Ty old_value, _Ty new_value);
-	// 8.²éÕÒindex´¦µÄ½ÚµãÖµ
+	// 8.æŸ¥æ‰¾indexå¤„çš„èŠ‚ç‚¹å€¼
 	_Ty get(const unsigned int& index);
-	// 9.´òÓ¡Á´±í
+	// 9.æ‰“å°é“¾è¡¨
 	void print();
 
-	// ÄÚÖÃµü´úÆ÷
+	// å†…ç½®è¿­ä»£å™¨
 	class DoubleLinkIterator
 	{
 	public:
 		DoubleLinkIterator(pNode p = nullptr):ptr(p){}
-		// 1.ÖØÔØ*ÔËËã·û
+		// 1.é‡è½½*è¿ç®—ç¬¦
 		Node& operator*() noexcept
 		{
 			return *ptr;
 		}
-		// 2.ÖØÔØ->ÔËËã·û
+		// 2.é‡è½½->è¿ç®—ç¬¦
 		pNode operator->() noexcept
 		{
 			return ptr;
 		}
-		// 3.ÖØÔØ==ÔËËã·û
+		// 3.é‡è½½==è¿ç®—ç¬¦
 		bool operator==(const DoubleLinkIterator& n) noexcept
 		{
 			return this->ptr == n.ptr;
 		}
-		// 4.ÖØÔØ!=ÔËËã·û
+		// 4.é‡è½½!=è¿ç®—ç¬¦
 		bool operator!=(const DoubleLinkIterator& n) noexcept
 		{
 			return this->ptr != n.ptr;
 		}
-		// 5.ÖØÔØÇ°ÖÃ++ÔËËã·û
+		// 5.é‡è½½å‰ç½®++è¿ç®—ç¬¦
 		DoubleLinkIterator& operator++() noexcept
 		{
 			ptr = ptr->next;
 			return *this;
 		}
-		// 6.ÖØÔØºóÖÃ++ÔËËã·û
+		// 6.é‡è½½åç½®++è¿ç®—ç¬¦
 		DoubleLinkIterator operator++(int) noexcept
 		{
 			pNode tmp = ptr;
 			ptr = ptr->next;
 			return DoubleLinkIterator(tmp);
 		}
-		// 7.ÖØÔØÇ°ÖÃ--ÔËËã·û
+		// 7.é‡è½½å‰ç½®--è¿ç®—ç¬¦
 		DoubleLinkIterator& operator--() noexcept
 		{
 			ptr = ptr->prev;
 			return *this;
 		}
-		// 8.ÖØÔØºóÖÃ--ÔËËã·û
+		// 8.é‡è½½åç½®--è¿ç®—ç¬¦
 		DoubleLinkIterator operator--(int) noexcept
 		{
 			pNode tmp = ptr;
@@ -257,7 +257,7 @@ inline LinkNode<_Ty>* MyDoubleLink<_Ty>::get_node(int index)
 		throw MyException("Index out of range.");
 	}
 
-	// ÕıÏò²éÕÒ
+	// æ­£å‘æŸ¥æ‰¾
 	if (index <= count / 2)
 	{
 		unsigned int i = 0;
@@ -269,7 +269,7 @@ inline LinkNode<_Ty>* MyDoubleLink<_Ty>::get_node(int index)
 		return p_index;
 	}
 
-	// ·´Ïò²éÕÒ
+	// åå‘æŸ¥æ‰¾
 	unsigned int i = 0;
 	unsigned int counts = count - index - 1;
 	LinkNode<_Ty>* r_index = phead->prev;
