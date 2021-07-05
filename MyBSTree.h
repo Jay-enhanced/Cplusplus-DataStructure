@@ -308,26 +308,31 @@ void MyBSTree<_Ty>::postorder_iterative()
 {
 	MyBSTreeNode<_Ty>* tmp = root;
 	MyStack<MyBSTreeNode<_Ty>*> stack(2 * m_size);
+
+	// 如果节点非空或者栈非空，一直执行
 	while (tmp || !stack.isEmpty())
 	{
+		// 当前节点非空，一直往左子树走
 		while (tmp)
 		{
-			stack.push(tmp);
-			stack.push(NULL);
-			tmp = tmp->lchild;
+			stack.push(tmp);	// 当前节点压栈
+			stack.push(NULL);	// 压入nullptr作为标志位，表示tmp是否该出栈
+			tmp = tmp->lchild;	// 继续往左子树走
 		}
+
+		// 走到最左节点，检查栈是否有元素
 		if (!stack.isEmpty())
 		{
-			tmp = stack.pop();
-			if (!tmp)
+			tmp = stack.pop();		// 栈顶元素出栈
+			if (!tmp)				// 如果栈顶是nullptr，表示右子树还没遍历
 			{
-				tmp = stack.top();
-				tmp = tmp->rchild;
+				tmp = stack.top();	// 获得栈顶元素，但不出栈
+				tmp = tmp->rchild;	// 往右子树走
 			}
-			else
+			else					// 栈顶元素非空，表示右子树遍历完了
 			{
-				cout << tmp->key << " ";
-				tmp = NULL;
+				cout << tmp->key << " ";	// 访问子树根
+				tmp = NULL;					// tmp置为空，因为下一步要把父节点的标志出栈
 			}
 		}
 	}
