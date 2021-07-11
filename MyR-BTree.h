@@ -1,48 +1,55 @@
-#pragma once
+ï»¿#pragma once
+#include <iostream>
 
-// ½Úµã
+using namespace std;
+// èŠ‚ç‚¹
 template <class _Ty>
 class MyRBTreeNode
 {
 public:
-    enum class RBTreeColor { RED, BLACK };    // ºìºÚÊ÷µÄÑÕÉ«
+    enum class RBTreeColor { RED, BLACK };    // çº¢é»‘æ ‘çš„é¢œè‰²
 
-    _Ty key;                        // ¼üÖµ
-    RBTreeColor color   = RBTreeColor::RED;      // ÑÕÉ«
-    MyRBTreeNode* left  = nullptr;  // ×óº¢×Ó
-    MyRBTreeNode* right = nullptr;  // ÓÒº¢×Ó
-    MyRBTreeNode* parent;           // ¸¸½Úµã
+    _Ty key;                        // é”®å€¼
+    RBTreeColor color   = RBTreeColor::RED;      // é¢œè‰²
+    MyRBTreeNode* left  = nullptr;  // å·¦å­©å­
+    MyRBTreeNode* right = nullptr;  // å³å­©å­
+    MyRBTreeNode* parent;           // çˆ¶èŠ‚ç‚¹
 
     MyRBTreeNode(_Ty val, MyRBTreeNode* p) :
         key(val), parent(p) {}
 };
 
-// ºìºÚÊ÷
+// çº¢é»‘æ ‘
 template <class _Ty>
 class MyRBTree
 {
 public:
-    MyRBTree() : root(nullptr) {}     // ¹¹Ôìº¯Êı
-    ~MyRBTree() {}    // Îö¹¹º¯Êı
+    MyRBTree() : root(nullptr) {}     // æ„é€ å‡½æ•°
+    ~MyRBTree() {}    // ææ„å‡½æ•°
 
-    // 1.²åÈë½Úµã
+    // 1.æ’å…¥èŠ‚ç‚¹
     void insert(_Ty key);
+    // ä¸­åºéå†
+    void inorder();
+    void inorder_iterative();
     
 private:
     MyRBTreeNode<_Ty> *root;
 
-    // ÅĞ¶ÏÊÇ·ñĞèÒªĞŞÕı
+    // åˆ¤æ–­æ˜¯å¦éœ€è¦ä¿®æ­£
     bool needed_fixup(MyRBTreeNode<_Ty>* node);
-    // ²åÈëĞŞÕı
+    // æ’å…¥ä¿®æ­£
     void insert_fixup(MyRBTreeNode<_Ty>* node);
-    // ×óĞı
+    // å·¦æ—‹
     MyRBTreeNode<_Ty>* rotate_left(MyRBTreeNode<_Ty>* node);
-    // ×óĞı
+    // å·¦æ—‹
     MyRBTreeNode<_Ty>* rotate_right(MyRBTreeNode<_Ty>* node);
-    // ÉèÖÃºÚÉ«
+    // è®¾ç½®é»‘è‰²
     void set_black(MyRBTreeNode<_Ty>* node);
-    // ÉèÖÃºìÉ«
+    // è®¾ç½®çº¢è‰²
     void set_red(MyRBTreeNode<_Ty>* node);
+    // ä¸­åºéå†ï¼Œå†…éƒ¨æ¥å£ï¼Œé€’å½’ç‰ˆæœ¬
+    void inorder(MyRBTreeNode<_Ty>* t);
 };
 
 template<class _Ty>
@@ -51,7 +58,7 @@ void MyRBTree<_Ty>::insert(_Ty key)
     MyRBTreeNode<_Ty>* tmp = root;
     MyRBTreeNode<_Ty>* parent = nullptr;
 
-    // ÕÒµ½²åÈëÎ»ÖÃ
+    // æ‰¾åˆ°æ’å…¥ä½ç½®
     while (tmp)
     {
         parent = tmp;
@@ -62,12 +69,12 @@ void MyRBTree<_Ty>::insert(_Ty key)
         else return;
     }
 
-    // ĞÂ½¨½Úµã
+    // æ–°å»ºèŠ‚ç‚¹
     MyRBTreeNode<_Ty>* node = new MyRBTreeNode<_Ty>(key, parent);
     if (!node)
         return;
 
-    // ¸¸½Úµã·Ç¿Õ£¬½«ĞÂ½ÚµãÉèÖÃÎª¸¸½ÚµãµÄ×óº¢×Ó»òÓÒº¢×Ó
+    // çˆ¶èŠ‚ç‚¹éç©ºï¼Œå°†æ–°èŠ‚ç‚¹è®¾ç½®ä¸ºçˆ¶èŠ‚ç‚¹çš„å·¦å­©å­æˆ–å³å­©å­
     if (parent)
     {
         if (node->key < parent->key)
@@ -75,12 +82,18 @@ void MyRBTree<_Ty>::insert(_Ty key)
         else
             parent->right = node;
     }
-    // ¸¸½ÚµãÊÇ¿ÕµÄ£¬ĞÂ½Úµã×÷Îª¸ù½Úµã
+    // çˆ¶èŠ‚ç‚¹æ˜¯ç©ºçš„ï¼Œæ–°èŠ‚ç‚¹ä½œä¸ºæ ¹èŠ‚ç‚¹
     else
         root = node;
 
-    // ½«Ê÷ĞŞÕıÎªºìºÚÊ÷
+    // å°†æ ‘ä¿®æ­£ä¸ºçº¢é»‘æ ‘
     insert_fixup(node);
+}
+
+template<class _Ty>
+void MyRBTree<_Ty>::inorder()
+{
+    inorder(root);
 }
 
 template<class _Ty>
@@ -97,17 +110,18 @@ void MyRBTree<_Ty>::insert_fixup(MyRBTreeNode<_Ty>* node)
     MyRBTreeNode<_Ty>* parent  = nullptr;
     MyRBTreeNode<_Ty>* grandpa = nullptr;
     MyRBTreeNode<_Ty>* uncle = nullptr;
-    // Èç¹û×æ¸¸½Úµã´æÔÚ£¬²ÅĞèÒªµ÷Õû
+    
+    // åˆ¤æ–­æ˜¯å¦éœ€è¦è°ƒæ•´ã€‚åªæœ‰ç¥–çˆ¶èŠ‚ç‚¹å­˜åœ¨ï¼Œå¹¶ä¸”çˆ¶èŠ‚ç‚¹æ˜¯çº¢è‰²çš„ï¼Œæ‰éœ€è¦è°ƒæ•´
     while (needed_fixup(node))
     {
         parent = node->parent;
         grandpa = parent->parent;
 
-        // Çé¿ö1£º×ó×ó
+        // æƒ…å†µ1ï¼šå·¦å·¦
         if (node == parent->left && parent == grandpa->left)
         {
             uncle = grandpa->right;
-            // ÊåÊåºÚ¡£µù±äºÚ£¬Ò¯±äºì£¬ÓÒĞıÒ»´ÎÍê³Éµ÷Õû¡£
+            // (1) å”å”é»‘ã€‚çˆ¹å˜é»‘ï¼Œçˆ·å˜çº¢ï¼Œå³æ—‹ä¸€æ¬¡å®Œæˆè°ƒæ•´ã€‚
             if (!uncle || uncle->color == MyRBTreeNode<_Ty>::RBTreeColor::BLACK)
             {
                 MyRBTreeNode<_Ty>* tmp;
@@ -116,10 +130,9 @@ void MyRBTree<_Ty>::insert_fixup(MyRBTreeNode<_Ty>* node)
                     root = tmp;
                 set_black(parent);
                 set_red(grandpa);
-
                 break;
             }
-            // ÊåÊåºì¡£µùºÍÊåÊå±äºÚ£¬Ò¯Ò¯±äºì£¬Ò¯Ò¯×÷Îªµ±Ç°½Úµã£¬»ØËİ
+            // (2) å”å”çº¢ã€‚çˆ¹å’Œå”å”å˜é»‘ï¼Œçˆ·çˆ·å˜çº¢ï¼Œçˆ·çˆ·ä½œä¸ºå½“å‰èŠ‚ç‚¹ï¼Œå›æº¯
             else
             {
                 set_black(parent);
@@ -128,17 +141,28 @@ void MyRBTree<_Ty>::insert_fixup(MyRBTreeNode<_Ty>* node)
                 node = grandpa;
             }
         }
-        // Çé¿ö2£º×óÓÒ£¬×óĞı£¬±ä³ÉÇé¿ö1
+        // æƒ…å†µ2ï¼šå·¦å³ï¼Œå·¦æ—‹å½“å‰èŠ‚ç‚¹ï¼Œç„¶åå°†æ—‹è½¬åçš„å·¦å­©å­å½“ä½œå½“å‰èŠ‚ç‚¹ï¼Œå˜æˆæƒ…å†µ1
         else if (node == parent->right && parent == grandpa->left)
         {
-            rotate_left(node);
-            node = node->left;
+            uncle = grandpa->right;
+            if (uncle && uncle->color == MyRBTreeNode<_Ty>::RBTreeColor::RED)
+            {
+                set_black(parent);
+                set_black(uncle);
+                set_red(grandpa);
+                node = grandpa;
+            }
+            else
+            {
+                rotate_left(node);
+                node = node->left;
+            }
         }
-        // Çé¿ö3£ºÓÒÓÒ¡£
+        // æƒ…å†µ3ï¼šå³å³ã€‚
         else if (node == parent->right && parent == grandpa->right)
         {
             uncle = grandpa->left;
-            // ÊåÊåºÚ¡£µù±äºÚ£¬Ò¯±äºì£¬ÓÒĞıÒ»´ÎÍê³Éµ÷Õû¡£
+            // ï¼ˆ1ï¼‰å”å”é»‘ã€‚çˆ¹å˜é»‘ï¼Œçˆ·å˜çº¢ï¼Œå·¦æ—‹çˆ¶èŠ‚ç‚¹ä¸€æ¬¡å®Œæˆè°ƒæ•´ã€‚
             if (!uncle || uncle->color == MyRBTreeNode<_Ty>::RBTreeColor::BLACK)
             {
                 MyRBTreeNode<_Ty>* tmp;
@@ -149,7 +173,7 @@ void MyRBTree<_Ty>::insert_fixup(MyRBTreeNode<_Ty>* node)
                 set_red(grandpa);
                 break;
             }
-            // ÊåÊåºì¡£µùºÍÊåÊå±äºÚ£¬Ò¯Ò¯±äºì£¬Ò¯Ò¯×÷Îªµ±Ç°½Úµã£¬»ØËİ
+            // ï¼ˆ2ï¼‰å”å”çº¢ã€‚çˆ¹å’Œå”å”å˜é»‘ï¼Œçˆ·çˆ·å˜çº¢ï¼Œçˆ·çˆ·ä½œä¸ºå½“å‰èŠ‚ç‚¹ï¼Œå›æº¯
             else
             {
                 set_black(parent);
@@ -158,15 +182,26 @@ void MyRBTree<_Ty>::insert_fixup(MyRBTreeNode<_Ty>* node)
                 node = grandpa;
             }
         }
-        // Çé¿ö4£ºÓÒ×ó¡£
+        // æƒ…å†µ4ï¼šå³å·¦ï¼Œå³æ—‹å½“å‰èŠ‚ç‚¹ï¼Œç„¶åå°†æ—‹è½¬åçš„å³å­©å­å½“ä½œå½“å‰èŠ‚ç‚¹ï¼Œå˜æˆæƒ…å†µ3ã€‚
         else if (node == parent->left && parent == grandpa->right)
         {
-            rotate_right(node);
-            node = node->right;
+            uncle = grandpa->left;
+            if (uncle && uncle->color == MyRBTreeNode<_Ty>::RBTreeColor::RED)
+            {
+                set_black(parent);
+                set_black(uncle);
+                set_red(grandpa);
+                node = grandpa;
+            }
+            else
+            {
+                rotate_right(node);
+                node = node->right;
+            }
         }
     }
 
-    // ¸ù½ÚµãÉèÎªºÚÉ«
+    // æ ¹èŠ‚ç‚¹è®¾ä¸ºé»‘è‰²
     set_black(root);
 }
 
@@ -176,10 +211,10 @@ MyRBTreeNode<_Ty>* MyRBTree<_Ty>::rotate_left(MyRBTreeNode<_Ty>* node)
     MyRBTreeNode<_Ty>* parent = node->parent;
     MyRBTreeNode<_Ty>* grandpa = parent->parent;
 
-    node->parent = grandpa;         // Ò¯Ò¯±äµù
-    parent->right = node->left;     // ×Ô¼ºµÄ×óº¢×ÓËÍ¸øµù×öÓÒº¢×Ó
-    node->left = parent;            // °Ñµùµ±×÷×Ô¼ºµÄ×óº¢×Ó
-    parent->parent = node;          // µùÈÏ¶ù×Ó×öµù
+    node->parent = grandpa;         // çˆ·çˆ·å˜çˆ¹
+    parent->right = node->left;     // è‡ªå·±çš„å·¦å­©å­é€ç»™çˆ¹åšå³å­©å­
+    node->left = parent;            // æŠŠçˆ¹å½“ä½œè‡ªå·±çš„å·¦å­©å­
+    parent->parent = node;          // çˆ¹è®¤å„¿å­åšçˆ¹
 
     if (grandpa)
     {
@@ -201,10 +236,10 @@ MyRBTreeNode<_Ty>* MyRBTree<_Ty>::rotate_right(MyRBTreeNode<_Ty>* node)
     MyRBTreeNode<_Ty>* parent = node->parent;
     MyRBTreeNode<_Ty>* grandpa = parent->parent;
 
-    node->parent = grandpa;         // Ò¯Ò¯±äµù
-    parent->left = node->right;     // ×Ô¼ºµÄÓÒº¢×ÓËÍ¸øµù×ö×óº¢×Ó
-    node->right = parent;           // °Ñµùµ±×÷×Ô¼ºµÄÓÒº¢×Ó
-    parent->parent = node;          // µùÈÏ¶ù×Ó×öµù
+    node->parent = grandpa;         // çˆ·çˆ·å˜çˆ¹
+    parent->left = node->right;     // è‡ªå·±çš„å³å­©å­é€ç»™çˆ¹åšå·¦å­©å­
+    node->right = parent;           // æŠŠçˆ¹å½“ä½œè‡ªå·±çš„å³å­©å­
+    parent->parent = node;          // çˆ¹è®¤å„¿å­åšçˆ¹
 
     if (grandpa)
     {
@@ -232,4 +267,26 @@ inline void MyRBTree<_Ty>::set_red(MyRBTreeNode<_Ty>* node)
 {
     if (node)
         node->color = MyRBTreeNode<_Ty>::RBTreeColor::RED;
+}
+
+template<class _Ty>
+void MyRBTree<_Ty>::inorder(MyRBTreeNode<_Ty>* t)
+{
+    if (t)
+    {
+        inorder(t->left);
+        cout << t->key << "(" << (t->color == MyRBTreeNode<_Ty>::RBTreeColor::RED ? "RED" : "BLACK") << ")" << ":";
+        cout << "left->";
+        if (t->left)
+            cout << t->left->key << ", ";
+        else
+            cout << "NULL, ";
+        cout << "right->";
+        if (t->right)
+            cout << t->right->key;
+        else
+            cout << "NULL";
+        cout << endl;
+        inorder(t->right);
+    }
 }
