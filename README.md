@@ -54,12 +54,12 @@
 
 ### 1.3 入栈
 
-![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/c2480c0086fe23fe0e84189652e599c924813b6e/images/Stack/3.%E5%85%A5%E6%A0%88%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/aacdd4254c1a7b03e4fe3b49d4267f1cb53f621a/images/Stack/3.%E5%85%A5%E6%A0%88%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
 **入栈前**：栈顶元素是20。此时，栈中的元素依次是 20→10。
 **入栈后**：40入栈之后，栈顶元素变成40。此时，栈中的元素依次是 40→20→10。
 
-### 4 C++实现
+### 1.4 C++实现
 
 使用模板实现存储任意类型数据，参考文件MyStack.h。因为使用了模板，所以实现也放在头文件中，如果实现放在`.cpp`文件中，会报链接错误。
 
