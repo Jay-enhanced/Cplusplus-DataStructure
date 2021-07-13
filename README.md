@@ -194,6 +194,30 @@ inline bool MyStack<_Ty>::isFull(void) const
 
 ## 2 单链表
 
+单链表是一种链式数据结构，许多复杂的数据结构都或多或少使用到单链表的特性，如二叉搜索树（BSTree）。
+
+单链表中的数据是以结点来表示的，每个结点由元素和指向后继结点的指针构成。单链表相对于线性结构，如数组，优点是插入及删除灵活，缺点是随机访问能力弱。
+
+### 2.1 单链表示意图
+
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/5b9a0beb4f86c40b1b405c4d06ce0ffedbd555d9/images/SingleList/1.%E5%8D%95%E9%93%BE%E8%A1%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
+
+2.2 插入结点
+
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/5b9a0beb4f86c40b1b405c4d06ce0ffedbd555d9/images/SingleList/2.%E5%8D%95%E9%93%BE%E8%A1%A8%E6%8F%92%E5%85%A5.svg)
+
+### 2.3 删除结点
+
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/5b9a0beb4f86c40b1b405c4d06ce0ffedbd555d9/images/SingleList/3.%E5%8D%95%E9%93%BE%E8%A1%A8%E5%88%A0%E9%99%A4.svg)
+
+### 2.4 C++实现
+
+#### 2.4.1 需求明确
+
+1. 一个用来存储数据的变量`value`；
+2. 一个指向后继结点的指针`next`；
+3. 
+
 
 
 ## 二 双向循环链表
