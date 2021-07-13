@@ -1,4 +1,5 @@
 # C++实现常用数据结构
+
 记录使用C++实现常用数据结构的学习过程。
 
 ## 参考
@@ -25,9 +26,9 @@
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
-## 一 栈
+## 1 栈
 
-栈是一种线性数据结构，有以下两种特点：
+栈（stack）是一种线性的数据结构，可以使用数组或链表实现。它具有以下两种特点：
 
 - 按照“后进先出”的顺序访问；
 - 只能对栈顶元素进行操作。
@@ -36,9 +37,11 @@
 
 1. push：向栈顶增加元素；
 2. pop：返回栈顶元素并删除该元素；
-3. peek：返回栈顶元素，不删除。
+3. top：返回栈顶元素，不删除。
 
-### 1 栈的示意图
+### 1.1 栈的示意图
+
+
 
 ![img](https://images0.cnblogs.com/blog/497634/201402/231830345432345.jpg)
 
