@@ -45,16 +45,16 @@
 
 栈中的数据依次是 30→20→10。
 
-### 2 出栈
+### 1.2 出栈
 
-![img](https://images0.cnblogs.com/blog/497634/201402/231830540262932.jpg)
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/c2480c0086fe23fe0e84189652e599c924813b6e/images/Stack/2.%E5%87%BA%E6%A0%88%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
 **出栈前**：栈顶元素是30。此时，栈中的元素依次是 30→20→10。
 **出栈后**：30出栈之后，栈顶元素变成20。此时，栈中的元素依次是 20→10。
 
-### 3 入栈
+### 1.3 入栈
 
-![img](https://images0.cnblogs.com/blog/497634/201402/231831135784303.jpg)
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/c2480c0086fe23fe0e84189652e599c924813b6e/images/Stack/3.%E5%85%A5%E6%A0%88%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
 **入栈前**：栈顶元素是20。此时，栈中的元素依次是 20→10。
 **入栈后**：40入栈之后，栈顶元素变成40。此时，栈中的元素依次是 40→20→10。
