@@ -26,6 +26,7 @@
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
+
 ## 1 栈     
 
 栈（stack）是一种线性的数据结构，可以使用数组或链表实现。它具有以下两种特点：    
@@ -62,9 +63,136 @@
 
 ### 1.4 C++实现
 
-使用模板实现存储任意类型数据，参考文件MyStack.h。因为使用了模板，所以实现也放在头文件中，如果实现放在`.cpp`文件中，会报链接错误。
+使用模板实现存储任意类型数据，参考文件`MyStack.h`。因为使用了模板，所以实现也放在头文件中，如果实现放在`.cpp`文件中，会报链接错误。
 
 原因参考[C++模板的定义是否只能放在头文件中？](https://blog.csdn.net/imred/article/details/80261632)
+
+#### 1.4.1 需求明确
+
+1. 一个变量`size`存储栈的大小；
+2. 一个变量`top`指向栈顶；
+3. 一个size大小的内存空间;
+4. 入栈操作``push`;
+5. 出栈操作`pop`；
+6. 取栈顶元素`top`；
+7. 检查栈是否为空的函数`isEmpty`；
+8. 检查栈是否满的函数`isFull`。
+
+#### 1.4.2 栈的类定义
+
+```c++
+template<class _Ty>
+class MyStack
+{
+public:
+	MyStack(int size);
+	virtual ~MyStack();
+	// 1.入栈
+	void push(_Ty element);
+	// 2.出栈
+	_Ty pop(void);
+	// 3.获取栈顶元素
+	_Ty top(void);
+	// 4.检查栈是否为空
+	bool isEmpty(void) const;
+	// 5.检查栈是否满了
+	bool isFull(void) const;
+
+private:
+	_Ty *stack;
+	int  size;
+	int  m_top;
+};
+```
+
+- 使用模板，实现存储任意类型的元素；
+- 提供输入参数为size的构造函数，用于创建size大小的栈；
+
+#### 1.4.3 构造函数
+
+```c++
+template<class _Ty>
+MyStack<_Ty>::MyStack(int size)
+{
+	this->size = size;
+	stack = new _Ty[size];
+	m_top = 0;
+}
+```
+
+#### 1.4.4 析构函数
+
+```c++
+template<class _Ty>
+inline MyStack<_Ty>::~MyStack()
+{
+	delete[] stack;
+}
+```
+
+#### 1.4.5 入栈（push）
+
+```c++
+template<class _Ty>
+void MyStack<_Ty>::push(_Ty element)
+{
+	if (isFull())
+	{
+		throw MyException("The stack space is full.");
+	}
+	stack[m_top++] = element;
+}
+```
+
+#### 1.4.6 出栈（pop）
+
+```c++
+template<class _Ty>
+_Ty MyStack<_Ty>::pop(void)
+{
+	if (isEmpty())
+		throw MyException("The stack is empty.");
+
+	return stack[--m_top];
+}
+```
+
+#### 1.4.7 取栈顶元素（top）
+
+```c++
+template<class _Ty>
+_Ty MyStack<_Ty>::top(void)
+{
+	if (isEmpty())
+		throw MyException("The stack is empty.");
+
+	return stack[m_top - 1];
+}
+```
+
+#### 1.4.8 判断栈是否空
+
+```c++
+template<class _Ty>
+inline bool MyStack<_Ty>::isEmpty(void) const
+{
+	return m_top == 0;
+}
+```
+
+#### 1.4.9 判断栈是否满
+
+```c++
+template<class _Ty>
+inline bool MyStack<_Ty>::isFull(void) const
+{
+	return m_top == size;
+}
+```
+
+
+
+## 2 单链表
 
 
 
