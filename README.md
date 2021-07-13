@@ -26,38 +26,39 @@
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
-## 1 栈
+## 1 栈     
 
-栈（stack）是一种线性的数据结构，可以使用数组或链表实现。它具有以下两种特点：
+栈（stack）是一种线性的数据结构，可以使用数组或链表实现。它具有以下两种特点：    
 
-- 按照“后进先出”的顺序访问；
-- 只能对栈顶元素进行操作。
+- 按照“后进先出”的顺序访问；   
+- 只能对栈顶元素进行操作。   
 
-栈的三种常用操作：
+栈的三种常用操作：   
 
-1. push：向栈顶增加元素；
-2. pop：返回栈顶元素并删除该元素；
-3. top：返回栈顶元素，不删除。
+1. push：向栈顶增加元素；   
+2. pop：返回栈顶元素并删除该元素；    
+3. top：返回栈顶元素，不删除。   
 
-### 1.1 栈的示意图
+### 1.1 栈的示意图    
 
 ![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/390eceb34d5f56275e38d266d29b026ac303176f/images/Stack/1.%E6%A0%88%E7%9A%84%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
-栈中的数据依次是 30→20→10。
+栈中的数据依次是 30→20→10。    
 
-### 1.2 出栈
+### 1.2 出栈     
 
 ![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/c2480c0086fe23fe0e84189652e599c924813b6e/images/Stack/2.%E5%87%BA%E6%A0%88%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
-**出栈前**：栈顶元素是30。此时，栈中的元素依次是 30→20→10。
-**出栈后**：30出栈之后，栈顶元素变成20。此时，栈中的元素依次是 20→10。
+**出栈前**：栈顶元素是30。此时，栈中的元素依次是 30→20→10。            
 
-### 1.3 入栈
+**出栈后**：30出栈之后，栈顶元素变成20。此时，栈中的元素依次是 20→10。     
+
+### 1.3 入栈     
 
 ![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/aacdd4254c1a7b03e4fe3b49d4267f1cb53f621a/images/Stack/3.%E5%85%A5%E6%A0%88%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
-**入栈前**：栈顶元素是20。此时，栈中的元素依次是 20→10。
-**入栈后**：40入栈之后，栈顶元素变成40。此时，栈中的元素依次是 40→20→10。
+**入栈前**：栈顶元素是20。此时，栈中的元素依次是 20→10。     
+**入栈后**：40入栈之后，栈顶元素变成40。此时，栈中的元素依次是 40→20→10。     
 
 ### 1.4 C++实现
 
