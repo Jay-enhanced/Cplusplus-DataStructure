@@ -41,9 +41,7 @@
 
 ### 1.1 栈的示意图
 
-
-
-![img](https://images0.cnblogs.com/blog/497634/201402/231830345432345.jpg)
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/390eceb34d5f56275e38d266d29b026ac303176f/images/Stack/1.%E6%A0%88%E7%9A%84%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
 栈中的数据依次是 30→20→10。
 
