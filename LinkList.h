@@ -73,9 +73,16 @@ public:
     void insert_front(const T& value);
     // 3.在第一个值比value大的节点前插入
     void insert(const T& value);
-    int  size();
-    T min();
-    T max();
+    // 4.删除第一个值为value的结点
+    void remove(const T& value);
+    // 5.删除所有值为value的结点
+    void remove_all_of(const T& value);
+    // 6.销毁链表
+    void destroy();
+    int  size() const;
+    T min() const;
+    T max() const;
+    bool contains(const T& value) const;
     void print(ostream& os = cout) const;
 
     iterator begin() const
@@ -149,21 +156,68 @@ void LinkList<T>::insert(const T& value)
         {
             Node<T>* node = new Node<T>(value, *tmp);
             (*tmp) = node;
+            m_size++;
             return;
         }
     }
     (*tmp) = new Node<T>(value, nullptr);
     tail = *tmp;
+    m_size++;
 }
 
 template<class T>
-inline int LinkList<T>::size()
+void LinkList<T>::remove(const T& value)
+{
+    Node<T>** tmp;
+    for (tmp = &head; *tmp; tmp = &(*tmp)->next)
+    {
+        if ((*tmp)->value == value)
+        {
+            Node<T>* node = *tmp;
+            *tmp = (*tmp)->next;
+            delete node;
+            m_size--;
+        }
+    }
+}
+
+template<class T>
+void LinkList<T>::remove_all_of(const T& value)
+{
+    Node<T>** tmp;
+    for (tmp = &head; *tmp;)
+    {
+        if ((*tmp)->value == value)
+        {
+            Node<T>* node = *tmp;
+            *tmp = (*tmp)->next;
+            delete node;
+            m_size--;
+        }
+        else
+            tmp = &(*tmp)->next;
+    }
+}
+
+template<class T>
+void LinkList<T>::destroy()
+{
+    while (head)
+    {
+        Node<T>* tmp = head;
+        head = head->next;
+        delete tmp;
+    }
+}
+
+template<class T>
+inline int LinkList<T>::size() const
 {
     return m_size;
 }
 
 template<class T>
-T LinkList<T>::min()
+T LinkList<T>::min() const
 {
     Node<T>* tmp = head;
     if (!head)
@@ -179,7 +233,7 @@ T LinkList<T>::min()
 }
 
 template<class T>
-T LinkList<T>::max()
+T LinkList<T>::max() const
 {
     Node<T>* tmp = head;
     if (!head)
@@ -192,6 +246,19 @@ T LinkList<T>::max()
         tmp = tmp->next;
     }
     return max;
+}
+
+template<class T>
+bool LinkList<T>::contains(const T& value) const
+{
+    Node<T>* tmp = head;
+    while (tmp)
+    {
+        if (tmp->value == value)
+            return true;
+        tmp = tmp->next;
+    }
+    return false;
 }
 
 template<class T>
