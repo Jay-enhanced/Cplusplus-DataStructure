@@ -202,11 +202,19 @@ inline bool MyStack<_Ty>::isFull(void) const
 
 ![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/5b9a0beb4f86c40b1b405c4d06ce0ffedbd555d9/images/SingleList/1.%E5%8D%95%E9%93%BE%E8%A1%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
-2.2 插入结点
+### 2.2 插入结点
+
+**插入元素“25”前：**10→20→30→40
+
+**插入元素“25”后：**10→20→25→30→40
 
 ![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/5b9a0beb4f86c40b1b405c4d06ce0ffedbd555d9/images/SingleList/2.%E5%8D%95%E9%93%BE%E8%A1%A8%E6%8F%92%E5%85%A5.svg)
 
 ### 2.3 删除结点
+
+**删除元素“25”前：**10→20→25→30→40
+
+**删除元素“25”后：**10→20→30→40
 
 ![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/5b9a0beb4f86c40b1b405c4d06ce0ffedbd555d9/images/SingleList/3.%E5%8D%95%E9%93%BE%E8%A1%A8%E5%88%A0%E9%99%A4.svg)
 
@@ -216,7 +224,239 @@ inline bool MyStack<_Ty>::isFull(void) const
 
 1. 一个用来存储数据的变量`value`；
 2. 一个指向后继结点的指针`next`；
-3. 
+3. 一个用来存储链表大小的变量`m_size`；
+4. 在链表尾部添加一个结点的方法`push_back()`；
+5. 在链表头部添加一个结点的方法`insert_front()`；
+6. 在结点的值比被插入结点的值大前插入结点的方法`insert()`；
+7. 删除一个结点的方法`remove()`；
+8. 删除全部值为value的方法`remove_all_of()`；
+9. 销毁链表的方法`destroy()`；
+10. 获取链表结点数量的方法`size()`；
+11. 获取链表最小值的方法`min()`；
+12. 获取链表最大值的方法`max()`；
+13. 查询是否包含某个结点的方法`contains()`；
+
+#### 2.4.2 结点定义
+
+```c++
+template <class T>
+class Node
+{
+public:
+    T value;	// 结点的值
+    Node* next; // 指向下一个结点的指针
+    Node() : next(nullptr) {}	
+    Node(T val, Node* p = nullptr) : value(val), next(p) {}	// 新建结点，下一个结点为p
+};
+```
+
+#### 2.4.3 链表定义
+
+```c++
+template <class T>
+class LinkList
+{
+private:
+    int m_size;		// 结点数量
+    Node<T>* head;	// 表头
+    Node<T>* tail;	// 表尾
+
+    class List_Iterator		// 内置迭代器类
+    {
+    public:
+        List_Iterator(Node<T>* p = nullptr) : ptr(p) {}	// 迭代器构造函数
+
+        Node<T>& operator*() const		// 重载 * 运算符
+        {
+            return *ptr;
+        }
+        Node<T>* operator->() const		// 重载->运算符
+        {
+            return ptr;
+        }
+        List_Iterator& operator++()		// 重载前置自增运算符
+        {
+            ptr = ptr->next;
+            return *this;
+        }
+
+        List_Iterator operator++(int)	// 重载后置自增运算符
+        {
+            Node<T>* tmp = ptr;
+            ++(*this);
+            return List_Iterator(tmp);
+        }
+
+        bool operator==(const List_Iterator& t) const	// 重载==运算符
+        {
+            return t.ptr == this->ptr;
+        }
+
+        bool operator!=(const List_Iterator& t) const	// 重载!=运算符
+        {
+            return t.ptr != this->ptr;
+        }
+
+    private:
+        Node<T>* ptr;	// 结点指针
+    };
+
+public:
+    using iterator = List_Iterator;
+
+    LinkList();
+    ~LinkList();
+    
+    // 1.后插
+    void push_back(const T& value);
+    // 2.前插
+    void insert_front(const T& value);
+    // 3.在第一个值比value大的节点前插入
+    void insert(const T& value);
+    // 4.删除第一个值为value的结点
+    void remove(const T& value);
+    // 5.删除所有值为value的结点
+    void remove_all_of(const T& value);
+    // 6.销毁链表
+    void destroy();
+    int  size() const;
+    T min() const;
+    T max() const;
+    bool contains(const T& value) const;
+    void print(ostream& os = cout) const;
+
+    iterator begin() const	// 迭代器头
+    {
+        return List_Iterator(head);
+    }
+    iterator end() const	// 迭代器尾
+    {
+        return List_Iterator(tail->next);
+    }
+};
+```
+
+#### 2.4.4 后插法
+
+```c++
+template<class T>
+void LinkList<T>::push_back(const T& value)
+{
+    if (!head)
+    {
+        head = new Node<T>(value);
+        tail = head;
+    }
+    else
+    {
+        tail->next = new Node<T>(value);
+        tail = tail->next;
+    }
+    m_size++;
+}	
+```
+
+#### 2.4.5 前插法
+
+```c++
+template<class T>
+void LinkList<T>::insert_front(const T& value)
+{
+    if (!head)
+    {
+        head = new Node<T>(value);
+        tail = head;
+    }
+    else
+    {
+        Node<T>* node = new Node<T>(value, head);
+        head = node;
+    }
+}
+```
+
+#### 2.4.6 升序插入
+
+```c++
+template<class T>
+void LinkList<T>::insert(const T& value)
+{
+    Node<T>** tmp;
+
+    for (tmp = &head; *tmp; tmp = &(*tmp)->next)		// 使用二级指针一次遍历完成插入
+    {
+        if ((*tmp)->value > value)
+        {
+            Node<T>* node = new Node<T>(value, *tmp);
+            (*tmp) = node;
+            m_size++;
+            return;
+        }
+    }
+    (*tmp) = new Node<T>(value, nullptr);
+    tail = *tmp;
+    m_size++;
+}
+```
+
+#### 2.4.7 删除结点
+
+```c++
+template<class T>
+void LinkList<T>::remove(const T& value)
+{
+    Node<T>** tmp;
+    for (tmp = &head; *tmp; tmp = &(*tmp)->next)	// 使用二级指针，遍历一次删除
+    {
+        if ((*tmp)->value == value)
+        {
+            Node<T>* node = *tmp;
+            *tmp = (*tmp)->next;
+            delete node;
+            m_size--;
+            return;
+        }
+    }
+}
+```
+
+#### 2.4.8 删除所有值为value的结点
+
+```c++
+template<class T>
+void LinkList<T>::remove_all_of(const T& value)
+{
+    Node<T>** tmp;
+    for (tmp = &head; *tmp;)
+    {
+        if ((*tmp)->value == value)
+        {
+            Node<T>* node = *tmp;
+            *tmp = (*tmp)->next;
+            delete node;
+            m_size--;
+        }
+        else
+            tmp = &(*tmp)->next;
+    }
+}
+```
+
+#### 2.4.9 销毁链表
+
+```c++
+template<class T>
+void LinkList<T>::destroy()
+{
+    while (head)
+    {
+        Node<T>* tmp = head;
+        head = head->next;
+        delete tmp;
+    }
+    head = nullptr;
+}
+```
 
 
 

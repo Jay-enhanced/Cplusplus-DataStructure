@@ -177,6 +177,7 @@ void LinkList<T>::remove(const T& value)
             *tmp = (*tmp)->next;
             delete node;
             m_size--;
+            return;
         }
     }
 }
@@ -208,6 +209,7 @@ void LinkList<T>::destroy()
         head = head->next;
         delete tmp;
     }
+    head = nullptr;
 }
 
 template<class T>

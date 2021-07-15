@@ -25,9 +25,6 @@ template<class _Ty>
 class MyDoubleLink
 {
 public:
-	using pNode = LinkNode<_Ty>*;
-	using Node  = LinkNode<_Ty>;
-
 	MyDoubleLink();
 	~MyDoubleLink();
 
@@ -54,14 +51,14 @@ public:
 	class DoubleLinkIterator
 	{
 	public:
-		DoubleLinkIterator(pNode p = nullptr):ptr(p){}
+		DoubleLinkIterator(LinkNode<_Ty>* p = nullptr):ptr(p){}
 		// 1.重载*运算符
-		Node& operator*() noexcept
+		LinkNode<_Ty>& operator*() noexcept
 		{
 			return *ptr;
 		}
 		// 2.重载->运算符
-		pNode operator->() noexcept
+		LinkNode<_Ty>* operator->() noexcept
 		{
 			return ptr;
 		}
@@ -84,7 +81,7 @@ public:
 		// 6.重载后置++运算符
 		DoubleLinkIterator operator++(int) noexcept
 		{
-			pNode tmp = ptr;
+			LinkNode<_Ty>* tmp = ptr;
 			ptr = ptr->next;
 			return DoubleLinkIterator(tmp);
 		}
@@ -97,13 +94,13 @@ public:
 		// 8.重载后置--运算符
 		DoubleLinkIterator operator--(int) noexcept
 		{
-			pNode tmp = ptr;
+			LinkNode<_Ty>* tmp = ptr;
 			ptr = ptr->prev;
 			return DoubleLinkIterator(tmp);
 		}
 
 	private:
-		pNode ptr;
+		LinkNode<_Ty>* ptr;
 	};
 
 	using iterator = DoubleLinkIterator;
@@ -119,7 +116,7 @@ public:
 
 private:
 	unsigned int count;
-	pNode phead;
+	LinkNode<_Ty>* phead;
 	LinkNode<_Ty>* get_node(int index);
 };
 
@@ -137,7 +134,7 @@ MyDoubleLink<_Ty>::~MyDoubleLink()
 	phead->prev->next = nullptr;
 	while (phead)
 	{
-		pNode tmp = phead;
+		LinkNode<_Ty>* tmp = phead;
 		phead = phead->next;
 		delete tmp;
 	}
@@ -159,7 +156,7 @@ inline bool MyDoubleLink<_Ty>::isEmpty() const
 template<class _Ty>
 void MyDoubleLink<_Ty>::insert_front(_Ty value)
 {
-	pNode pnode = new Node(value, phead, phead->next);
+	LinkNode<_Ty>* pnode = new LinkNode<_Ty>(value, phead, phead->next);
 	phead->next->prev = pnode;
 	phead->next = pnode;
 	count++;
@@ -168,7 +165,7 @@ void MyDoubleLink<_Ty>::insert_front(_Ty value)
 template<class _Ty>
 void MyDoubleLink<_Ty>::insert_tail(_Ty value)
 {
- 	pNode pnode = new Node(value, phead->prev, phead);
+ 	LinkNode<_Ty>* pnode = new LinkNode<_Ty>(value, phead->prev, phead);
 	phead->prev->next = pnode;
 	phead->prev = pnode;
 	count++;
@@ -183,8 +180,8 @@ void MyDoubleLink<_Ty>::insert_at(const unsigned int& index, _Ty value)
 		return;
 	}
 
-	pNode pnode_index = get_node(index);
-	pNode pnode = new Node(value, pnode_index->prev, pnode_index);
+	LinkNode<_Ty>* pnode_index = get_node(index);
+	LinkNode<_Ty>* pnode = new LinkNode<_Ty>(value, pnode_index->prev, pnode_index);
 	pnode_index->prev->next = pnode;
 	pnode_index->prev = pnode;
 	count++;
@@ -198,7 +195,7 @@ void MyDoubleLink<_Ty>::delete_node(_Ty value)
 		throw MyException("LinkList is empty.");
 	}
 
-	pNode p = phead->next;
+	LinkNode<_Ty>* p = phead->next;
 	while (p != phead)
 	{
 		if (p->value == value)
@@ -217,7 +214,7 @@ void MyDoubleLink<_Ty>::delete_node(_Ty value)
 template<class _Ty>
 void MyDoubleLink<_Ty>::update_node(_Ty old_value, _Ty new_value)
 {
-	pNode p = phead->next;
+	LinkNode<_Ty>* p = phead->next;
 
 	while (p != phead)
 	{
@@ -234,14 +231,14 @@ void MyDoubleLink<_Ty>::update_node(_Ty old_value, _Ty new_value)
 template<class _Ty>
 _Ty MyDoubleLink<_Ty>::get(const unsigned int& index)
 {
-	pNode node = get_node(index);
+	LinkNode<_Ty>* node = get_node(index);
 	return node->value;
 }
 
 template<class _Ty>
 void MyDoubleLink<_Ty>::print()
 {
-	pNode tmp = phead;
+	LinkNode<_Ty>* tmp = phead;
 	while (tmp && tmp->next != phead)
 	{
 		cout << tmp->next->value << " ";
