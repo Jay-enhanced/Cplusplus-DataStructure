@@ -466,13 +466,13 @@ void LinkList<T>::destroy()
 
 ### 1 双向循环链表示意图
 
-![img](https://images0.cnblogs.com/blog/497634/201402/231247423393589.jpg)
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/a48fdd040fc41959eb608432fce9fc3ed671a8b1/images/DoubleLinkList/%E5%8F%8C%E5%90%91%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
 ### 2 删除节点
 
-![img](https://images0.cnblogs.com/blog/497634/201402/231248185524615.jpg)
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/a48fdd040fc41959eb608432fce9fc3ed671a8b1/images/DoubleLinkList/%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
-删除"节点30"。
+删除"节点20"。
 **删除之前**："节点20"的后继节点为"节点30"，"节点30" 的前继节点为"节点20"。"节点30"的后继节点为"节点40"，"节点40" 的前继节点为"节点30"。
 **删除之后**："节点20"的后继节点为"节点40"，"节点40" 的前继节点为"节点20"。
 
