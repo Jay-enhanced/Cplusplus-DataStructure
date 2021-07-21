@@ -460,35 +460,39 @@ void LinkList<T>::destroy()
 
 
 
-## 二 双向循环链表
+## 3 双向循环链表
 
 双向循环链表，顾名思义，每个节点都有两个指针，一个指向前驱节点，一个指向后继节点。头节点的前驱节点是尾节点，尾节点的后继节点是头节点。双向循环链表相较于单链表更具灵活性。
 
-### 1 双向循环链表示意图
+### 3.1 双向循环链表示意图
 
-![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/a48fdd040fc41959eb608432fce9fc3ed671a8b1/images/DoubleLinkList/%E5%8F%8C%E5%90%91%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/552e7c3acabe3a526868effbb173cf4bb2ba0301/images/DoubleLinkList/%E5%8F%8C%E5%90%91%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
-### 2 删除节点
+### 3.2 删除节点
 
-![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/a48fdd040fc41959eb608432fce9fc3ed671a8b1/images/DoubleLinkList/%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/552e7c3acabe3a526868effbb173cf4bb2ba0301/images/DoubleLinkList/%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
 删除"节点20"。
-**删除之前**："节点10"的后继节点为"节点20"，"节点30" 的前继节点为"节点20"。"节点30"的后继节点为"节点40"，"节点40" 的前继节点为"节点30"。
-**删除之后**："节点20"的后继节点为"节点40"，"节点40" 的前继节点为"节点20"。
+**删除之前**："节点10"的后继节点为"节点20"，"节点30" 的前继节点为"节点20"。"节点20"的后继节点为"节点30"，"节点20" 的前继节点为"节点10"。
+**删除之后**："节点10"的后继节点为"节点30"，"节点30" 的前继节点为"节点10"。
 
-### 3 添加节点
+### 3.3 插入节点
 
-![img](https://images0.cnblogs.com/i/497634/201403/241342164043381.jpg)
+![img](https://raw.githubusercontent.com/Ryzen7-3700X/Cplusplus-DataStructure/552e7c3acabe3a526868effbb173cf4bb2ba0301/images/DoubleLinkList/%E6%8F%92%E5%85%A5%E7%BB%93%E7%82%B9%E7%A4%BA%E6%84%8F%E5%9B%BE.svg)
 
-在"节点10"与"节点20"之间添加"节点15"。
-**添加之前**："节点10"的后继节点为"节点20"，"节点20" 的前继节点为"节点10"。
-**添加之后**："节点10"的后继节点为"节点15"，"节点15" 的前继节点为"节点10"。"节点15"的后继节点为"节点20"，"节点20" 的前继节点为"节点15"。
+在"节点10"与"节点30"之间插入"节点20"。
+**插入之前**："节点10"的后继节点为"节点30"，"节点30" 的前继节点为"节点10"。
+**插入之后**："节点10"的后继节点为"节点20"，"节点20" 的前继节点为"节点10"。"节点20"的后继节点为"节点30"，"节点30" 的前继节点为"节点20"。
 
-### 4 C++实现
+### 3.4 C++实现
+
+#### 3.4.1 需求明确
+
+
 
 使用模板实现存储任意类型数据，参考文件MyDoubleLink.h。
 
-## 三 二叉查找树
+## 4 二叉查找树
 
 ### 1 树的介绍
 #### 1.1 树的定义
