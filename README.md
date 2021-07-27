@@ -488,9 +488,121 @@ void LinkList<T>::destroy()
 
 #### 3.4.1 需求明确
 
+1. 节点的结构由一个value、一个指向前一个节点的指针prev以及一个指向后一个节点的指针next组成；
+2. 一个size变量存储链表节点个数；
+3. 实现前插法，后插法；
+4. 链表判空；
+5. 删除节点。
+
+#### 3.4.2 节点定义
+
+```c++
+template<class _Ty>
+struct LinkNode
+{
+	_Ty value;
+	LinkNode* prev;
+	LinkNode* next;
+
+	LinkNode(){}
+	LinkNode(_Ty value, LinkNode* prev, LinkNode* next)
+	{
+		this->value = value;
+		this->prev = prev;
+		this->next = next;
+	}
+};
+```
+
+#### 3.4.3 链表定义
+
+```c++
+template<class _Ty>
+class MyDoubleLink
+{
+public:
+	MyDoubleLink();
+	~MyDoubleLink();
+
+	// 1.返回链表的大小
+	unsigned int size() const;
+	// 2.返回链表是否为空
+	bool isEmpty() const;
+	// 3.头插
+	void insert_front(_Ty value);
+	// 4.尾插
+	void insert_tail(_Ty value);
+	// 5.在index前增加节点
+	void insert_at(const unsigned int& index, _Ty value);
+	// 6.删除第一个值为value的节点
+	void delete_node(_Ty value);
+	// 7.更新节点
+	void update_node(_Ty old_value, _Ty new_value);
+	// 8.查找index处的节点值
+	_Ty get(const unsigned int& index);
+
+private:
+	unsigned int count;
+	LinkNode<_Ty>* phead;
+	LinkNode<_Ty>* get_node(int index);
+};
+```
+
+#### 3.4.4 前插法
+
+```c++
+template<class _Ty>
+void MyDoubleLink<_Ty>::insert_front(_Ty value)
+{
+	LinkNode<_Ty>* pnode = new LinkNode<_Ty>(value, phead, phead->next);
+	phead->next->prev = pnode;
+	phead->next = pnode;
+	count++;
+}
+```
+
+#### 3.4.5 后插法
+
+```c++
+template<class _Ty>
+void MyDoubleLink<_Ty>::insert_tail(_Ty value)
+{
+ 	LinkNode<_Ty>* pnode = new LinkNode<_Ty>(value, phead->prev, phead);
+	phead->prev->next = pnode;
+	phead->prev = pnode;
+	count++;
+}
+```
+
+#### 3.4.6 删除节点
+
+```c++
+template<class _Ty>
+void MyDoubleLink<_Ty>::delete_node(_Ty value)
+{
+	if (isEmpty())
+	{
+		throw MyException("LinkList is empty.");
+	}
+
+	LinkNode<_Ty>* p = phead->next;
+	while (p != phead)
+	{
+		if (p->value == value)
+		{
+			p->prev->next = p->next;
+			p->next->prev = p->prev;
+			delete p;
+			count--;
+			return;
+		}
+		p = p->next;
+	}
+	throw MyException("The corresponding node was not found in the LinkList.");
+}
+```
 
 
-使用模板实现存储任意类型数据，参考文件MyDoubleLink.h。
 
 ## 4 二叉查找树
 
